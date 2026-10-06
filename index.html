@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Тёплый угол</title>
+  <style>
+    /* Цвета сайта — светлая тема по умолчанию */
+    :root {
+      --bg: #EFECF3;
+      --card: #ffffff;
+      --ink: #2B2640;
+      --muted: #5A5470;
+      --border: #2B2640;
+      --shadow: #2B2640;
+      --pink: #EDB4C6;
+      --yellow: #F2DDA0;
+      --mint: #B3DDCF;
+      --lilac: #D1C9E8;
+    }
+
+    /* Тёмная тема — включается сама, если в системе тёмный режим */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1B1828;
+        --card: #26223A;
+        --ink: #EFECF5;
+        --muted: #B3ADC9;
+        --border: #CFC8E6;
+        --shadow: #4A4175;
+        --pink-text: #EDB4C6;
+      }
+    }
+
+    /* Общие стили */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 10px;
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 0 0 15px;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* Шапка */
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 0;
+      border-bottom: 3px solid var(--border);
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    nav a {
+      padding: 6px 12px;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      background: var(--card);
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      background: var(--yellow);
+      color: #2B2640;
+    }
+
+    /* Кнопки */
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border: 3px solid var(--border);
+      border-radius: 30px;
+      background: var(--card);
+      color: var(--ink);
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 4px 4px 0 var(--shadow);
+    }
+
+    .btn.primary {
+      background: var(--pink);
+      color: #2B2640;
+    }
+
+    .btn:hover {
+      background: var(--mint);
+      color: #2B2640;
+    }
+
+    /* Карточки */
+    .card {
+      padding: 20px;
+      border: 3px solid var(--border);
+      border-radius: 20px;
+      background: var(--card);
+      box-shadow: 5px 5px 0 var(--shadow);
+    }
+
+    /* Секции */
+    section {
+      padding: 40px 0;
+      border-bottom: 3px solid var(--border);
+    }
+
+    /* Первый экран */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      align-items: center;
+      padding: 40px 0;
+    }
+
+    .hero-text {
+      flex: 1 1 300px;
+    }
+
+    .hero-img {
+      display: flex;
+      flex: 1 1 300px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .hero-img img {
+      width: 100%;
+      max-width: 220px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border: 3px solid var(--border);
+      border-radius: 20px;
+    }
+
+    /* Сетка карточек */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    /* Цветные метки */
+    .sticker {
+      display: inline-block;
+      padding: 5px 12px;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      background: var(--yellow);
+      color: #2B2640;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .sticker.pink { background: var(--pink); }
+    .sticker.mint { background: var(--mint); }
+    .sticker.lilac { background: var(--lilac); }
+
+    /* Карточки котов */
+    .cat-card img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      margin-bottom: 10px;
+      border: 2px solid var(--border);
+      border-radius: 15px;
+    }
+
+    /* Шаги */
+    .steps {
+      padding-left: 20px;
+    }
+
+    .steps li {
+      margin-bottom: 10px;
+    }
+
+    /* Список нужд */
+    .needs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .needs li {
+      padding: 8px 15px;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      background: var(--card);
+    }
+
+    /* Контакты */
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      padding: 15px;
+    }
+
+    .contact-row span {
+      font-weight: bold;
+    }
+
+    .copy {
+      padding: 5px 10px;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      background: var(--yellow);
+      color: #2B2640;
+      cursor: pointer;
+    }
+
+    footer {
+      padding: 30px 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* Мобильная версия */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Шапка сайта -->
+    <header>
+      <a class="logo" href="#top">Тёплый угол</a>
+      <nav>
+        <a href="#about">О нас</a>
+        <a href="#help">Как помочь</a>
+        <a href="#cats">Коты</a>
+        <a href="#adopt">Забрать домой</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+    </header>
+
+    <main id="top">
+
+      <!-- Первый экран -->
+      <section class="hero">
+        <div class="hero-text">
+          <h1>Хвостатые ищут дом. Поможешь?</h1>
+          <p>Мы спасаем уличных кошек и котят, лечим их и находим новый дом.</p>
+          <a class="btn primary" href="#cats">Смотреть котов</a>
+          <a class="btn" href="#help">Хочу помогать</a>
+        </div>
+        <div class="hero-img">
+          <img src="img/pryanya.jpg" alt="Трёхцветная кошка Пряня">
+          <img src="img/oreo.jpg" alt="Чёрно-белый кот Орео">
+        </div>
+      </section>
+
+      <!-- О нас -->
+      <section id="about">
+        <h2>Кто мы такие</h2>
+        <p>«Тёплый угол» начался с одной коробки с котятами у подъезда. Теперь это команда волонтёров.</p>
+        <p>Мы лечим кошек, делаем прививки и стерилизацию, а потом ищем им семью.</p>
+        <div class="grid">
+          <div class="card"><b>Лечим</b><p>Ветеринар, прививки, стерилизация</p></div>
+          <div class="card"><b>Дружим</b><p>Возвращаем доверие к людям</p></div>
+          <div class="card"><b>Ищем семью</b><p>Подбираем по характеру</p></div>
+          <div class="card"><b>Не бросаем</b><p>Помогаем советом после переезда</p></div>
+        </div>
+      </section>
+
+      <!-- Как помочь -->
+      <section id="help">
+        <h2>Чем можно помочь</h2>
+        <p>Необязательно брать кота домой. Выбери то, что тебе по силам.</p>
+        <div class="grid">
+          <div class="card">
+            <h3>Взять на передержку</h3>
+            <p>Котёнку нужна тихая комната на пару недель. Корм и лекарства мы дадим.</p>
+          </div>
+          <div class="card">
+            <h3>Привезти вкусняшки</h3>
+            <p>Корм, наполнитель и пелёнки всегда нужны.</p>
+          </div>
+          <div class="card">
+            <h3>Влиться в команду</h3>
+            <p>Нужны руки для уборки, водители и фотографы. Хватит пары часов в неделю.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Коты -->
+      <section id="cats">
+        <h2>Наши коты ищут дом</h2>
+        <p>Четыре красавца, которые уже мечтают о своём диване.</p>
+        <div class="grid">
+          <div class="card cat-card">
+            <img src="img/oreo.jpg" alt="Кот Орео">
+            <h3>Орео</h3>
+            <span class="sticker mint">кот · 1,5 года</span>
+            <p>Чёрно-белый красавчик во фраке. Любит тишину.</p>
+          </div>
+          <div class="card cat-card">
+            <img src="img/shtorm.jpg" alt="Кот Шторм">
+            <h3>Шторм</h3>
+            <span class="sticker pink">кот · 2 года</span>
+            <p>Серьёзный на вид, но мурчит громче всех.</p>
+          </div>
+          <div class="card cat-card">
+            <img src="img/pryanya.jpg" alt="Кошка Пряня">
+            <h3>Пряня</h3>
+            <span class="sticker">кошка · 1 год</span>
+            <p>Трёхцветная королева. Любит внимание.</p>
+          </div>
+          <div class="card cat-card">
+            <img src="img/bintik.jpg" alt="Котёнок Бинтик">
+            <h3>Бинтик</h3>
+            <span class="sticker lilac">котёнок · 4 месяца</span>
+            <p>Малыш с перебинтованной лапкой. Идёт на поправку.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Как забрать домой -->
+      <section id="adopt">
+        <h2>Как забрать кота домой</h2>
+        <ol class="steps">
+          <li><b>Выбери кота</b> — найди своего по характеру.</li>
+          <li><b>Напиши нам</b> — расскажи о себе и о доме.</li>
+          <li><b>Приезжай знакомиться</b> — обычно хватает одной-двух встреч.</li>
+          <li><b>Подпиши договор</b> — он защищает кота.</li>
+          <li><b>Забирай домой</b> — дадим переноску и корм на первую неделю.</li>
+        </ol>
+      </section>
+
+      <!-- Что нужно -->
+      <section id="needs">
+        <h2>Что нам нужно</h2>
+        <ul class="needs">
+          <li>Сухой корм</li>
+          <li>Влажный корм</li>
+          <li>Наполнитель</li>
+          <li>Пелёнки</li>
+          <li>Когтеточки</li>
+          <li>Игрушки</li>
+          <li>Переноски</li>
+          <li>Лотки</li>
+        </ul>
+      </section>
+
+      <!-- Контакты -->
+      <section id="contacts">
+        <h2>Пиши, не стесняйся</h2>
+        <p>Отвечаем быстро, особенно если в сообщении есть фото кота.</p>
+
+        <div class="card contact-row">
+          <span>Почта:</span>
+          <span id="c-mail">hello@teply-ugol.example</span>
+          <button class="copy" data-target="c-mail">Копировать</button>
+        </div>
+
+        <div class="card contact-row">
+          <span>Телефон:</span>
+          <span id="c-phone">+7 (000) 000-00-00</span>
+          <button class="copy" data-target="c-phone">Копировать</button>
+        </div>
+
+        <div class="card contact-row">
+          <span>Адрес:</span>
+          <span>г. Барнаул, ул. Примерная, 1</span>
+        </div>
+
+        <div class="card">
+          <h3>Когда приезжать</h3>
+          <p>Вт и чт: 17:00–20:00<br>Сб и вс: 11:00–16:00</p>
+          <p>Лучше напиши заранее, чтобы мы подготовили встречу.</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Подвал -->
+    <footer>
+      <p>© 2026 «Тёплый угол». Некоммерческий волонтёрский проект.</p>
+      <p>Имена котов и контакты на этой странице учебные.</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // Кнопки "Копировать"
+    // Находим все кнопки с классом copy
+    document.querySelectorAll('.copy').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        // Берём id элемента, который нужно скопировать
+        var target = document.getElementById(btn.dataset.target);
+        // Копируем текст в буфер обмена
+        navigator.clipboard.writeText(target.textContent.trim()).then(function () {
+          btn.textContent = 'Скопировано';
+          setTimeout(function () {
+            btn.textContent = 'Копировать';
+          }, 1500);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
